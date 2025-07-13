@@ -12,13 +12,15 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.FileProvider
+import com.royro.photoAnim.presentation.VideoListActivity
 
 class MainActivity : AppCompatActivity() {
 
     private val viewModel: VideoViewModel by viewModels()
     private lateinit var progressBar: ProgressBar
-    private lateinit var previewButton: Button
-    private lateinit var durationInput: EditText
+    private lateinit var previewButton : Button
+    private lateinit var savedVideosListBtn : Button
+    private lateinit var durationInputEtv: EditText
     private var selectedUris = listOf<Uri>()
 
     private val pickImages =
@@ -34,12 +36,13 @@ class MainActivity : AppCompatActivity() {
         val startRendering: Button = findViewById(R.id.startRendering)
         previewButton = findViewById(R.id.previewVideoBtn)
         progressBar = findViewById(R.id.progressBar)
-        durationInput = findViewById(R.id.videoDurationInput)
+        durationInputEtv = findViewById(R.id.videoDurationInput)
+        savedVideosListBtn = findViewById(R.id.savedVideosBtn)
 
         selectImages.setOnClickListener { pickImages.launch("image/*") }
 
         startRendering.setOnClickListener {
-            val duration = durationInput.text.toString().toIntOrNull() ?: 5
+            val duration = durationInputEtv.text.toString().toIntOrNull() ?: 5
             if (selectedUris.isNotEmpty()) {
                 viewModel.createVideo(selectedUris, duration)
             } else {
@@ -56,6 +59,10 @@ class MainActivity : AppCompatActivity() {
                 }
                 startActivity(Intent.createChooser(intent, "Play video with"))
             }
+        }
+        savedVideosListBtn.setOnClickListener{
+            startActivity(Intent(this, VideoListActivity::class.java))
+
         }
 
         observeViewModel()

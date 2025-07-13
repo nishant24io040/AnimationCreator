@@ -12,6 +12,8 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.AnimationCreator"
         tools:targetApi="31">
+        <activity android:name=".presentation.VideoListActivity"
+            android:exported="false"/>
         <activity
             android:name=".MainActivity"
             android:exported="true">
